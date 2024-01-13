@@ -1,0 +1,42 @@
+---
+const { text } = Astro.props
+---
+
+<div class='w-full justify-center flex items-center'>
+  <div class='font-mono text-4xl text-left w-1/2 pl-3' style='width: 50rem;'>
+    <h2 class='subheader animate-left'>{text}</h2>
+  </div>
+</div>
+
+<style>
+  .subheader {
+    --color1: white;
+    --color2: rgb(204, 204, 204);
+    background: linear-gradient(
+      45deg,
+      var(--color1) 0%,
+      var(--color1) 50%,
+      var(--color2) 50%,
+      var(--color2) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .animate-left {
+    position: relative;
+    opacity: 0%;
+    animation: rightFromLeft 1s ease-out forwards;
+  }
+  @keyframes rightFromLeft {
+    0% {
+      transform: translateX(-10rem);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0rem);
+    }
+  }
+</style>

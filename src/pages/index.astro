@@ -1,0 +1,50 @@
+---
+import Capy from '../components/Capy.astro'
+import Repos from '../components/RepoTable.astro'
+import Header from '../components/Header.astro'
+import Subheader from '../components/Subheader.astro'
+import Description from '../components/Description.astro'
+
+const repo_list = [
+  { url: 'https://api.github.com/repos/eemelioksanen/birdnest' },
+  { url: 'https://api.github.com/repos/eemelioksanen/musescorescript' },
+  { url: 'https:/api.github.com/repos/eemelioksanen/website' },
+  {
+    url: 'https://api.github.com/repos/OpenVAA/voting-advice-application',
+    customDescription:
+      'A free, open source voting advice platform built to make elections more transparent and accessible.',
+  },
+]
+---
+
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+    <link rel='icon' type='image/png' href='logo.png' />
+    <meta name='viewport' content='width=device-width' />
+    <meta name='generator' content={Astro.generator} />
+    <title>Eemeli Oksanen</title>
+  </head>
+  <body>
+    <Capy />
+    <Header />
+    <Description />
+    <Subheader text={'projects/contributions'} />
+    <Repos repos={repo_list} />
+  </body>
+
+  <style>
+    html {
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    body {
+      background: url(background.jpg) center fixed;
+      -moz-background-size: cover;
+      -webkit-background-size: cover;
+      -o-background-size: cover;
+      background-size: cover;
+    }
+  </style>
+</html>

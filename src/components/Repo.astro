@@ -1,0 +1,108 @@
+---
+interface Props {
+  repo: {
+    name: string
+    html_url: string
+    description: string
+    language: string
+    owner: {
+      login: string
+      avatar_url: string
+    }
+  }
+  index: number
+  customDescription: string | undefined
+}
+const { repo, index, customDescription } = Astro.props
+---
+
+<div class='sm:w-1/2 w-full p-3'>
+  <div class='animate-down absolute' style=`animation-delay: ${index * 150}ms;`>
+    <a href={repo.html_url} target='_blank'>
+      <div
+        class='w-full h-60 border-2 border-purple-400 rounded-lg
+      p-5 hover:scale-105 animated-bg duration-200 hover:shadow-md hover:shadow-purple-100 hover:border-white
+     text-purple-100 hover:text-white overflow-hidden card-bg relative'
+      >
+        <div class='font-mono overflow-hidden'>
+          <div>
+            <h2 class='text-xl font-bold'>{repo.name}</h2>
+            <p>{customDescription ? customDescription : repo.description}</p>
+          </div>
+          <p class='absolute bottom-1 right-2 origin-top-right'>
+            {repo.language}
+          </p>
+          <p class='absolute top-1 right-2'>
+            {
+              repo.owner.login === 'eemelioksanen'
+                ? 'personal'
+                : repo.owner.login
+            }
+          </p>
+          <img
+            class='h-10 rounded-full bg-white border absolute bottom-2 left-2'
+            src={repo.owner.avatar_url}
+          />
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+<style>
+  .card-bg {
+    --color1: rgb(195, 144, 247);
+    --color2: rgb(11, 38, 119);
+    --color3: #140844;
+    --cutoff1: 7%;
+    --cutoff2: 97.5%;
+
+    background: linear-gradient(
+      to top right,
+      var(--color1) 0%,
+      var(--color1) var(--cutoff1),
+      var(--color2) var(--cutoff1),
+      var(--color3) 70%,
+      var(--color3) var(--cutoff2),
+      var(--color1) var(--cutoff2),
+      var(--color1) 100%
+    );
+  }
+
+  .card-bg:hover {
+    --color1: rgb(255, 255, 255);
+    --color2: rgb(62, 29, 124);
+    --color3: #140844;
+    --cutoff1: 7%;
+    --cutoff2: 97.5%;
+
+    background: linear-gradient(
+      to top right,
+      var(--color1) 0%,
+      var(--color1) var(--cutoff1),
+      var(--color2) var(--cutoff1),
+      var(--color3) 70%,
+      var(--color3) var(--cutoff2),
+      var(--color1) var(--cutoff2),
+      var(--color1) 100%
+    );
+  }
+
+  .animate-down {
+    position: relative;
+    opacity: 0%;
+    animation: upFromBelow 0.7s ease-out forwards;
+  }
+  @keyframes upFromBelow {
+    0% {
+      transform: translateY(10rem);
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0rem);
+    }
+  }
+</style>

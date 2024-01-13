@@ -1,0 +1,86 @@
+<script>
+  const maxCapyTime = 10 // maximum time a capy will be on screen in seconds
+  const capyInterval = 1000 // capy spawn rate in milliseconds
+  const minSize = 10 // min size of a capy
+  const maxSize = 50 // max size of a capy
+  const maxCapyRotateSpeed = 5 // the maximum number of full rotations of a capy
+  const animationCount = 20 // number of random animations generated
+
+  const capy_files = ['capy1.png', 'capy2.png', 'capy3.png']
+
+  const updateScreenWidth = () => {
+    document.documentElement.style.setProperty(
+      '--screen-width',
+      window.innerWidth + 100 + 'px'
+    )
+  }
+  updateScreenWidth()
+  window.addEventListener('resize', updateScreenWidth)
+
+  // get random int between [min, max]
+  const getRandomInt = (min: number, max: number) => {
+    min = Math.ceil(min)
+    max = Math.floor(max)
+    return Math.floor(Math.random() * (max - min + 1)) + min
+  }
+
+  // create random rotation animations
+  for (let i = 0; i < animationCount; i++) {
+    const animationName = 'capy_spin_' + i.toString()
+    const animation = `
+    @keyframes ${animationName} {
+      0% {
+        transform: translateX(0px) rotate(0deg);
+      }
+      100% {
+        transform: translateX(var(--screen-width)) rotate(${
+          (Math.random() * (2 * maxCapyRotateSpeed) - maxCapyRotateSpeed) * 360
+        }deg);
+      }
+    }
+    `
+    const dynamicStyle = document.createElement('style')
+    dynamicStyle.textContent = animation
+    document.head.appendChild(dynamicStyle)
+  }
+
+  const container = document.getElementById('container')
+
+  const spawnCapy = (posY: number, duration: number, size: number) => {
+    const capy = document.createElement('img')
+    // generate pseudorandom ID for the style
+
+    capy.className = 'capy'
+    capy.style.width = size + 'px'
+    capy.alt = 'capybara'
+    capy.style.height = size + 'px'
+    capy.style.position = 'absolute'
+    capy.src = capy_files[getRandomInt(0, capy_files.length - 1)]
+    capy.style.left = '-' + size + 'px'
+    capy.style.top = posY + 'px'
+    capy.style.animation = `capy_spin_${getRandomInt(
+      0,
+      animationCount
+    )} ${duration}s linear`
+    capy.style.transformOrigin = 'center'
+    capy.style.position = 'fixed'
+    capy.style.overflow = 'hidden'
+    capy.style.userSelect = 'none'
+    capy.style.zIndex = '-1'
+    container?.appendChild(capy)
+    setTimeout(() => {
+      // delete the elements to prevent memory leaks
+      capy.remove()
+    }, duration * 1000)
+  }
+
+  setInterval(() => {
+    const randomHeight = getRandomInt(0, window.innerHeight)
+    const randomTime = getRandomInt(5, maxCapyTime)
+    const size = getRandomInt(minSize, maxSize) / (randomTime / maxCapyTime)
+    spawnCapy(randomHeight, randomTime, size)
+  }, capyInterval)
+</script>
+
+<div id='container' class='-z-10 absolute h-full w-screen overflow-hidden'>
+</div>
