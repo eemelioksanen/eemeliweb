@@ -28,6 +28,7 @@ const repo_list = [
   </head>
   <body
     style=`background: url(${backgroundImage.src}) center fixed; 
+    background-color: #090921;
     -moz-background-size: cover;
     -webkit-background-size: cover;
     -o-background-size: cover;
@@ -35,6 +36,7 @@ const repo_list = [
     height: 100%;
     `
   >
+    <img style='display:none;' src=`${backgroundImage.src}` />
     <Capy />
     <Header />
     <Description />
