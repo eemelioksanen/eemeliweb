@@ -4,6 +4,7 @@ import Repos from '../components/RepoTable.astro'
 import Header from '../components/Header.astro'
 import Subheader from '../components/Subheader.astro'
 import Description from '../components/Description.astro'
+import backgroundImage from '../images/background.png'
 
 const repo_list = [
   { url: 'https://api.github.com/repos/eemelioksanen/birdnest' },
@@ -25,7 +26,13 @@ const repo_list = [
     <meta name='generator' content={Astro.generator} />
     <title>Eemeli Oksanen</title>
   </head>
-  <body>
+  <body
+    style=`background: url(${backgroundImage.src}) center fixed; 
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;`
+  >
     <Capy />
     <Header />
     <Description />
@@ -40,7 +47,6 @@ const repo_list = [
     }
 
     body {
-      background: url(background.png) center fixed;
       -moz-background-size: cover;
       -webkit-background-size: cover;
       -o-background-size: cover;
