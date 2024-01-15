@@ -36,7 +36,9 @@ const repo_list = [
     height: 100%;
     `
   >
-    <img style='display:none;' src=`${backgroundImage.src}` />
+    <!-- force background image to load first -->
+    <img style='display:none;' alt='' src=`${backgroundImage.src}` />
+
     <Capy />
     <Header />
     <Description />
