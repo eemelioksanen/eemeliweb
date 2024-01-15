@@ -13,47 +13,33 @@ interface Props {
 const { repos } = Astro.props
 
 let repos_json = null
-let error = ''
 
-try {
-  repos_json = await Promise.all(
-    repos.map(async (repo) => {
-      const repo_data = await fetch(repo.url)
-      const repo_json = await repo_data.json()
-      if (repo.customDescription) {
-        repo_json.customDescription = repo.customDescription
-      }
-      return repo_json
-    })
-  )
-} catch (err) {
-  error = 'Failed to fetch GitHub data!'
-}
+repos_json = await Promise.all(
+  repos.map(async (repo) => {
+    const repo_data = await fetch(repo.url)
+    const repo_json = await repo_data.json()
+    if (repo.customDescription) {
+      repo_json.customDescription = repo.customDescription
+    }
+    return repo_json
+  })
+)
 ---
 
 <div class='justify-center flex overflow-visible'>
-  {
-    error ? (
-      <div class='text-center text-lg text-red-500 animate-bounce'>
-        <p>{error}</p>
-      </div>
-    ) : null
-  }
   <div
     id='repositories'
     style='width: 50rem;'
     class='flex flex-wrap justify-center'
   >
     {
-      repos_json
-        ? repos_json.map((repo: any, index: number) => (
-            <Repo
-              repo={repo}
-              index={index}
-              customDescription={repo.customDescription}
-            />
-          ))
-        : null
+      repos_json.map((repo: any, index: number) => (
+        <Repo
+          repo={repo}
+          index={index}
+          customDescription={repo.customDescription}
+        />
+      ))
     }
   </div>
 </div>
