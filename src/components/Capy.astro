@@ -1,4 +1,9 @@
 <script>
+  import { getImage } from 'astro:assets'
+  import capy1 from '../images/capy1.webp'
+  import capy2 from '../images/capy2.webp'
+  import capy3 from '../images/capy3.webp'
+
   const maxCapyTime = 10 // maximum time a capy will be on screen in seconds
   const capyInterval = 1000 // capy spawn rate in milliseconds
   const minSize = 10 // min size of a capy
@@ -6,7 +11,11 @@
   const maxCapyRotateSpeed = 5 // the maximum number of full rotations of a capy
   const animationCount = 20 // number of random animations generated
 
-  const capy_files = ['capy1.webp', 'capy2.webp', 'capy3.webp']
+  const capy_files = [capy1, capy2, capy3]
+
+  const capy_images = await Promise.all(
+    capy_files.map(async (capy) => await getImage(capy))
+  )
 
   const updateScreenWidth = () => {
     document.documentElement.style.setProperty(
@@ -55,7 +64,7 @@
     capy.alt = 'capybara'
     capy.style.height = size + 'px'
     capy.style.position = 'absolute'
-    capy.src = capy_files[getRandomInt(0, capy_files.length - 1)]
+    capy.src = capy_images[getRandomInt(0, capy_files.length - 1)].src
     capy.style.left = '-' + size + 'px'
     capy.style.top = posY + 'px'
     capy.style.animation = `capy_spin_${getRandomInt(

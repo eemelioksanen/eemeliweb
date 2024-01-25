@@ -5,6 +5,7 @@ import Header from '../components/Header.astro'
 import Subheader from '../components/Subheader.astro'
 import Description from '../components/Description.astro'
 import backgroundImage from '../images/background.webp'
+import { getImage } from 'astro:assets'
 
 const repo_list = [
   { url: 'https://api.github.com/repos/eemelioksanen/birdnest' },
@@ -16,6 +17,7 @@ const repo_list = [
       'A free, open source voting advice platform built to make elections more transparent and accessible.',
   },
 ]
+const background = await getImage({ src: backgroundImage, format: 'webp' })
 ---
 
 <html lang='en'>
@@ -27,7 +29,7 @@ const repo_list = [
     <title>Eemeli Oksanen</title>
   </head>
   <body
-    style=`background: url(${backgroundImage.src}) center fixed; 
+    style=`background: url(${background.src}) center fixed; 
     background-color: #090921;
     -moz-background-size: cover;
     -webkit-background-size: cover;
@@ -36,9 +38,6 @@ const repo_list = [
     height: 100%;
     `
   >
-    <!-- force background image to load first -->
-    <img style='display:none;' alt='' src=`${backgroundImage.src}` />
-
     <Capy />
     <Header />
     <Description />
